@@ -64,19 +64,22 @@ for (let i = 0; i < numbers.length; i++) {
 // Похожие элементы A*B доработать повторы
 
 const A = [10, 10, 15, 5, 6];
-const B = [3, 10, 6, 18, 32];
+const B = [3, 10, 6, 6, 18, 32];
+
+const copyArrA = [...new Set([...A])];
+const copyArrB = [...new Set([...B])];
 
 const arr = [];
 
-for (let i = 0; i < A.length; i++) {
+for (let i = 0; i < copyArrA.length; i++) {
   let count = 0;
-  for (let j = 0; j < B.length; j++) {
-    if (A[i] === B[j]) {
+  for (let j = 0; j < copyArrB.length; j++) {
+    if (copyArrA[i] === copyArrB[j]) {
       count++;
     }
   }
   if (count === 1) {
-    arr.push(A[i]);
+    arr.push(copyArrA[i]);
   }
 }
 
@@ -138,7 +141,7 @@ const getLargestPalindrom = (digit) => {
       if (isPalidrom(i * j)) {
         flag = false;
         result = i * j;
-        console.log(`${i} * ${j}`);
+        // console.log(`${i} * ${j}`);
       }
       j--;
     }
@@ -149,4 +152,65 @@ const getLargestPalindrom = (digit) => {
 };
 
 // console.log(getLargestPalindrom(6));
+
+// 2520 - самое маленькое число, которое делится без остатка на все числа от 1 до 10.
+
+// Какое самое маленькое число делится нацело на все числа от 1 до 20?
+
+const getSmallestDeviderByEachOfNumbersofRange = (start, end) => {
+  if (start > end) {
+    [start, end] = [end, start]; // деструктуризация, поменять значения местами
+  }
+
+  let flag = true;
+  let n = end;
+
+  while (flag) {
+    let flagDevider = true;
+    for (let i = start; i <= end; i++) {
+      if (n % i !== 0) {
+        flagDevider = false;
+      }
+    }
+    if (!flagDevider) {
+      n++;
+    } else {
+      flag = false;
+    }
+  }
+  return n;
+};
+
+// console.log(getSmallestDeviderByEachOfNumbersofRange(1, 20));
+
+
+// Разность между суммой квадратов и квадратом суммы
+
+let sum1 = 0;
+let sum2 = 0;
+
+
+const squareSum = (start, end) => {
+  for (let i = start; i <= end; i++) {
+    sum1 = sum1 + (i ** 2);
+    sum2 = sum2 + i;
+  }
+  return (sum2 ** 2) - sum1;
+};
+// console.log(squareSum(1, 20));
+
+
+// const isPrime = (n) => {
+//   let flag = false;
+//   let i = 2;
+
+//   while (!flag && i <= n - 1) {
+//     if (n % i === 0) {
+//       flag = true;
+//     }
+//     i++;
+//   }
+//   return !flag;
+// };
+
 

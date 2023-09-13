@@ -1,7 +1,7 @@
 import { PlaceDict } from './constants.js';
 
 function removeClassByPrefix(node, prefix) {
-  let regx = new RegExp('\\b' + prefix + '[^ ]*[ ]?\\b', 'g');
+  let regx = new RegExp(`\\b + ${prefix} + [^ ]*[ ]?\\b`, 'g');
   node.className = node.className.replace(regx, '');
   return node;
 }

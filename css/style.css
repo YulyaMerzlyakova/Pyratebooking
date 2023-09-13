@@ -598,14 +598,23 @@ fieldset {
 }
 
 .ad-form__photo {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
   margin-right: 10px;
   margin-bottom: 10px;
 
-  width: 70px;
-  height: 70px;
+  min-width: 70px;
+  max-width: 214px;
+  min-height: 70px;
 
   background-color: #e4e4de;
-  border-radius: 5px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ad-form__photo img {
+  width: 70px;
 }
 
 .ad-form__element--submit {

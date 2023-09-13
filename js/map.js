@@ -2,50 +2,56 @@ import {
   TILE_LAYER,
   COPYRIGHT,
   ZOOM,
-  iconConfig,
-  iconMainConfig,
-  cityCenter
+  IconConfig,
+  IconMainConfig,
+  CityCenter,
+  ROUND_VALUE,
 } from './constants.js';
 
 import { renderBaloon } from './baloon.js';
+import { fillAddress } from './form.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 
 const map = L.map(mapCanvas);
 
+const icon = L.icon({
+  iconUrl: IconConfig.url,
+  iconSize: [IconConfig.width, IconConfig.height],
+  iconAnchor: [IconConfig.anchorX, IconConfig.anchorY],
+});
+
 const markerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: iconMainConfig.url,
-  iconSize: [iconMainConfig.width, iconMainConfig.height],
-  iconAnchor: [iconMainConfig.anchorX, iconMainConfig.anchorY],
+  iconUrl: IconMainConfig.url,
+  iconSize: [IconMainConfig.width, IconMainConfig.height],
+  iconAnchor: [IconMainConfig.anchorX, IconMainConfig.anchorY],
 });
 
-const mainPinMarker = L.marker(cityCenter, {
+const mainPinMarker = L.marker(CityCenter, {
   draggable: true,
   icon: mainPinIcon
-}).on('moveend', (evt) =>
-  evt.target.getLatLng()
-);
-
-mainPinMarker.addTo(map);
+});
 
 const loadMap = () =>
   new Promise((resolve) => {
     map.on('load', () => resolve(true))
-      .setView(cityCenter, ZOOM);
+      .setView(CityCenter, ZOOM);
+    L.tileLayer(TILE_LAYER,
+      {
+        attribution: COPYRIGHT
+      })
+      .addTo(map);
 
-    L.tileLayer(TILE_LAYER, {
-      attribution: COPYRIGHT
+    fillAddress(CityCenter.lat, CityCenter.lng);
+    mainPinMarker.on('moveend', (evt) => {
+      const location = evt.target.getLatLng();
+      fillAddress(location.lat.toFixed(ROUND_VALUE), location.lng.toFixed(ROUND_VALUE));
     })
       .addTo(map);
-  });
 
-const icon = L.icon({
-  iconUrl: iconConfig.url,
-  iconSize: [iconConfig.width, iconConfig.height],
-  iconAnchor: [iconConfig.anchorX, iconConfig.anchorY],
-});
+  });
 
 const renderMarkers = (data) => {
   markerGroup.clearLayers();
@@ -61,12 +67,12 @@ const renderMarkers = (data) => {
 
     marker
       .addTo(markerGroup)
-      .bindPopup(renderBaloon(item));
+      .bindPopup(renderBaloon(item)
+      );
   });
 };
 
 export {
   loadMap,
-  renderMarkers,
-  mainPinMarker
+  renderMarkers
 };
