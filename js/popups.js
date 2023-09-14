@@ -4,7 +4,7 @@ const errorTemplate = document.querySelector('#error').content.querySelector('.e
 const showPopupSuccess = () => {
   const successPopupElement = successTemplate.cloneNode(true);
   document.body.append(successPopupElement);
-  successPopupElement.classList.add('success__popup');
+  successPopupElement.classList.add('popup-message');
   document.addEventListener('keydown', onEscKeydown);
   document.addEventListener('click', onClickOutside);
 };
@@ -12,7 +12,7 @@ const showPopupSuccess = () => {
 const showPopupError = () => {
   const errorPopupElement = errorTemplate.cloneNode(true);
   document.body.append(errorPopupElement);
-  errorPopupElement.classList.add('success__popup');
+  errorPopupElement.classList.add('popup-message');
 
   const closeButtonError = document.querySelector('.error__button');
   closeButtonError.addEventListener('click', closePopup);
@@ -21,7 +21,7 @@ const showPopupError = () => {
 };
 
 function closePopup() {
-  document.querySelector('.success__popup').remove();
+  document.querySelector('.popup-message').remove();
   document.removeEventListener('keydown', onEscKeydown);
   document.removeEventListener('click', onClickOutside);
 }

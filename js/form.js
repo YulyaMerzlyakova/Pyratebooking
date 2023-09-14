@@ -1,20 +1,24 @@
 import { postData } from './api.js';
+
 import {
   CityCenter,
   DefaultImages,
-  MinLimitsPrice,
+  // MinLimitsPrice,
   SubmitButtonText
 } from './constants.js';
+
 import {
   showPopupSuccess,
   showPopupError,
   onEscKeydown
 } from './popups.js';
+
 import './slider.js';
+
 import { validateForm } from './validation.js';
 
 const adForm = document.querySelector('.ad-form');
-const uploadAvatarImage = document.querySelector('.ad-form-header__preview img');
+const uploadAvatarImage = adForm.querySelector('.ad-form-header__preview img');
 const uploadAvatar = document.querySelector('#avatar');
 const priceField = adForm.querySelector('#price');
 const addressField = document.querySelector('#address');
@@ -53,11 +57,11 @@ const updatePricePlaceholder = (price) => {
   priceField.placeholder = price;
 };
 
-const resetForm = (evt) => {
+const resetForm = () => {
   uploadAvatarImage.src = DefaultImages.avatar;
-  adFormPhoto.remove();
+  // adFormImagesField.remove();
   adForm.reset();
-  updatePricePlaceholder(MinLimitsPrice[evt.target.value]);
+  // updatePricePlaceholder(MinLimitsPrice[evt.target.value]);
   fillAddress(CityCenter.lat, CityCenter.lng);
 };
 
@@ -70,6 +74,7 @@ adForm.addEventListener('submit', (evt) => {
         if (response.ok) {
           showPopupSuccess();
           resetForm();
+          enabledSubmitButton();
         } else {
           showPopupError();
           document.removeEventListener('keydown', onEscKeydown);
